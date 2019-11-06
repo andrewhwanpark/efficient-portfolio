@@ -26,7 +26,7 @@ cov_daily = returns_daily.cov() # Generate covariance matrix
 cov_annual = cov_daily * 252 # Annualize covmat
 
 # Risk Free Return Rate
-risk_free = 0
+risk_free = 0.02 
 
 # Lists to store portfolio attributes
 port_returns = []
@@ -36,7 +36,7 @@ sharpe_ratio = []
 
 # set the number of combinations for imaginary portfolios
 num_assets = len(selected)
-num_portfolio = 10000 # Number of imaginary portfolios
+num_portfolio = 50000 # Number of imaginary portfolios
 
 # Populate empty lists with each port's attributes
 for port in range(num_portfolio):
@@ -44,9 +44,9 @@ for port in range(num_portfolio):
     weights /= np.sum(weights) # Normalize weight
     returns = np.dot(weights, returns_annual) # Portfolio Expected Return
     volatility = np.sqrt(np.dot(weights.T, np.dot(cov_annual, weights))) # Portfolio Standard Deviation
-    
+
     # Calculate Sharpe Ratio
-    sharpe = returns / volatility
+    sharpe = (returns - risk_free) / volatility
     sharpe_ratio.append(sharpe)
     
     # Add calculated values into appropriate lists
@@ -83,6 +83,10 @@ df.plot.scatter(x='Volatility', y='Returns', c='Sharpe-Ratio', cmap='RdYlGn', ed
 plt.scatter(x=sharpe_portfolio['Volatility'], y=sharpe_portfolio['Returns'], c='red', marker='D', s=200)
 # Plot tangent portfolio
 plt.scatter(x=min_variance_portfolio['Volatility'], y=min_variance_portfolio['Returns'], c='blue', marker='D', s=200)
+# Plot the Capital Allocation Line
+axes = plt.gca()
+x_vals = np.array(axes.get_xlim())
+plt.plot(x_vals, risk_free + (max_sharpe * x_vals), '--')
 plt.xlabel('Volatility')
 plt.ylabel('Expected Returns')
 plt.title('Efficient Frontier of ' + str(num_portfolio) + ' imaginary portfolios consisting of ' + str(selected).strip('[]'))
