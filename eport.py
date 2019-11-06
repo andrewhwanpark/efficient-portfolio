@@ -16,7 +16,6 @@ table = clean.pivot(columns='ticker')
 
 # Calculate daily & annual returns of the stocks
 returns_daily = table.pct_change()
-# Q: Why does this * 253 not (1 + r)^253?
 returns_annual = returns_daily.mean() * 252 # of Trading Days: 252
 
 # print(returns_daily.head())
@@ -37,14 +36,13 @@ sharpe_ratio = []
 
 # set the number of combinations for imaginary portfolios
 num_assets = len(selected)
-num_portfolio = 50000 # Number of imaginary portfolios
+num_portfolio = 10000 # Number of imaginary portfolios
 
 # Populate empty lists with each port's attributes
 for port in range(num_portfolio):
     weights = np.random.random(num_assets) # Returned as n x 1 Matrix
     weights /= np.sum(weights) # Normalize weight
     returns = np.dot(weights, returns_annual) # Portfolio Expected Return
-    # Q: The cols and rows don't match for matrix mult
     volatility = np.sqrt(np.dot(weights.T, np.dot(cov_annual, weights))) # Portfolio Standard Deviation
     
     # Calculate Sharpe Ratio
@@ -72,10 +70,19 @@ column_order = ['Returns', 'Volatility', 'Sharpe-Ratio'] + [stock + ' Weight' fo
 
 df = df[column_order]
 
-# df.head()
+# Calculate min_vol and max_SR
+min_volatility = df['Volatility'].min()
+max_sharpe = df['Sharpe-Ratio'].max()
+
+sharpe_portfolio = df.loc[df['Sharpe-Ratio'] == max_sharpe]
+min_variance_portfolio = df.loc[df['Volatility'] == min_volatility]
 
 plt.style.use('seaborn')
 df.plot.scatter(x='Volatility', y='Returns', c='Sharpe-Ratio', cmap='RdYlGn', edgecolors='black', grid=True)
+# Plot minimum variance portfolio
+plt.scatter(x=sharpe_portfolio['Volatility'], y=sharpe_portfolio['Returns'], c='red', marker='D', s=200)
+# Plot tangent portfolio
+plt.scatter(x=min_variance_portfolio['Volatility'], y=min_variance_portfolio['Returns'], c='blue', marker='D', s=200)
 plt.xlabel('Volatility')
 plt.ylabel('Expected Returns')
 plt.title('Efficient Frontier of ' + str(num_portfolio) + ' imaginary portfolios consisting of ' + str(selected).strip('[]'))
