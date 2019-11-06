@@ -15,3 +15,7 @@ No part of this program is / will be used for commercial or enterprise purposes.
 ## Part 2: Part 1 with Sharpe Ratio as c-axis
 
 ![Markowitz Portfolio Efficient Portfolio Plot with Sharpe Ratio](/images/part2.png)
+
+## Part 3: Minimum Variance Portfolio and Tangent Portfolio
+
+![Portfolio Plot with minimum variance portfolio and tangent portfolio](/images/part3.png)
