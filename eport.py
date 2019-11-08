@@ -26,7 +26,7 @@ cov_daily = returns_daily.cov() # Generate covariance matrix
 cov_annual = cov_daily * 252 # Annualize covmat
 
 # Risk Free Return Rate
-risk_free = 0.02 
+risk_free = 0.03
 
 # Lists to store portfolio attributes
 port_returns = []
@@ -86,7 +86,8 @@ plt.scatter(x=min_variance_portfolio['Volatility'], y=min_variance_portfolio['Re
 # Plot the Capital Allocation Line
 axes = plt.gca()
 x_vals = np.array(axes.get_xlim())
-plt.plot(x_vals, risk_free + (max_sharpe * x_vals), '--')
+plt.plot(x_vals, risk_free + (max_sharpe * x_vals), label='Capital Allocation Line ' + '(Risk Free Rate: ' + str(risk_free) + ')', linestyle='--')
+plt.legend()
 plt.xlabel('Volatility')
 plt.ylabel('Expected Returns')
 plt.title('Efficient Frontier of ' + str(num_portfolio) + ' imaginary portfolios consisting of ' + str(selected).strip('[]'))

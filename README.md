@@ -19,3 +19,7 @@ No part of this program is / will be used for commercial or enterprise purposes.
 ## Part 3: Minimum Variance Portfolio and Tangent Portfolio
 
 ![Portfolio Plot with minimum variance portfolio and tangent portfolio](/images/part3.png)
+
+## Part 4: Non-zero Risk Free Rate & Capital Allocation Line Plot
+
+![Portfolio Plot with CAL](/images/part4.png)
