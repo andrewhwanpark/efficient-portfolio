@@ -23,3 +23,5 @@ No part of this program is / will be used for commercial or enterprise purposes.
 ## Part 4: Non-zero Risk Free Rate & Capital Allocation Line Plot
 
 ![Portfolio Plot with CAL](/images/part4.png)
+
+Beyond the medium.com post, the program now plots the Capital Allocation Line (CAL) with user-specified risk free rate.
